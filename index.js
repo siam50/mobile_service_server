@@ -21,9 +21,10 @@ async function run() {
         const serviceCollection = client.db('mobileService').collection('services');
 
         app.get('/services', async (req, res) => {
+            const nmbr = parseInt(req.query.nmbr)
             const query = {};
             const cursor = serviceCollection.find(query);
-            const services = await cursor.toArray();
+            const services = await cursor.limit(nmbr).toArray();
             res.send(services);
         })
     }
@@ -38,5 +39,5 @@ app.get('/', (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log(`server running on: ${port}`)
+    console.log(`server running on: ${port}`);
 })
